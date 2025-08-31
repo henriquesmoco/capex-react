@@ -1,0 +1,75 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20250831.1
+      author: hsmoco
+      changes:
+        - createTable:
+            tableName: tb_users
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 20250831.2
+      author: hsmoco
+      changes:
+        - createIndex:
+            tableName: tb_users
+            indexName: idx_users_username
+            columns:
+              - column:
+                  name: username
+  - changeSet:
+      id: 20250831.3
+      author: hsmoco
+      changes:
+        - insert:
+            tableName: tb_users
+            columns:
+              - column:
+                  name: username
+                  value: admin
+              - column:
+                  name: name
+                  value: Capex Admin
+        - insert:
+            tableName: tb_users
+            columns:
+              - column:
+                  name: username
+                  value: johndoe
+              - column:
+                  name: name
+                  value: John Doe
+        - insert:
+            tableName: tb_users
+            columns:
+              - column:
+                  name: username
+                  value: marydoe
+              - column:
+                  name: name
+                  value: Mary Doe
+        - insert:
+            tableName: tb_users
+            columns:
+              - column:
+                  name: username
+                  value: paulsmith
+              - column:
+                  name: name
+                  value: Paul Smith
