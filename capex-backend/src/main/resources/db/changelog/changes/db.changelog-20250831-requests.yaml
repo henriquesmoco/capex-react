@@ -1,0 +1,152 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20250831.4
+      author: hsmoco
+      changes:
+        - createTable:
+            tableName: tb_categories
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 20250831.5
+      author: hsmoco
+      changes:
+        - createTable:
+            tableName: tb_business_units
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 20250831.6
+      author: hsmoco
+      changes:
+        - createTable:
+            tableName: tb_requests
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: request_type
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: request_number
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: parent_request
+                  type: int
+                  constraints:
+                    referencedTableName: tb_requests
+                    referencedColumnNames: id
+                    foreignKeyName: fk_requests_request_parent
+              - column:
+                  name: project_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: project_date
+                  type: date
+              - column:
+                  name: category
+                  type: int
+                  constraints:
+                    referencedTableName: tb_categories
+                    referencedColumnNames: id
+                    foreignKeyName: fk_requests_category
+              - column:
+                  name: business_unit
+                  type: int
+                  constraints:
+                    referencedTableName: tb_business_units
+                    referencedColumnNames: id
+                    foreignKeyName: fk_requests_business_unit
+              - column:
+                  name: capex_cost
+                  type: currency
+              - column:
+                  name: opex_cost
+                  type: currency
+              - column:
+                  name: emergency
+                  type: bool
+              - column:
+                  name: it_project
+                  type: bool
+              - column:
+                  name: description
+                  type: varchar(300)
+  - changeSet:
+      id: 20250831.7
+      author: hsmoco
+      changes:
+        - insert:
+            tableName: tb_categories
+            columns:
+              - column:
+                  name: name
+                  value: Appliance
+        - insert:
+            tableName: tb_categories
+            columns:
+              - column:
+                  name: name
+                  value: Supply
+        - insert:
+            tableName: tb_categories
+            columns:
+              - column:
+                  name: name
+                  value: Digital
+  - changeSet:
+      id: 20250831.8
+      author: hsmoco
+      changes:
+        - insert:
+            tableName: tb_business_units
+            columns:
+              - column:
+                  name: name
+                  value: Headquarters NA
+        - insert:
+            tableName: tb_business_units
+            columns:
+              - column:
+                  name: name
+                  value: IAD Office
+        - insert:
+            tableName: tb_business_units
+            columns:
+              - column:
+                  name: name
+                  value: ORD Office
