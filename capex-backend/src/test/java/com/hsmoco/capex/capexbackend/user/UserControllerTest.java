@@ -1,5 +1,6 @@
 package com.hsmoco.capex.capexbackend.user;
 
+import com.hsmoco.capex.capexbackend.user.dto.UserDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,11 +17,11 @@ public class UserControllerTest {
 
     @Test
     void findAllUsers_ReturnUsersProperly() {
-        List<User> users = userController.findAll();
+        List<UserDto> users = userController.findAll();
 
         assertThat(users).isNotNull();
-        User user = users.getFirst();
-        assertThat(user.getName()).isNotEmpty();
-        assertThat(user.getUsername()).isNotEmpty();
+        UserDto user = users.getFirst();
+        assertThat(user.name()).isNotEmpty();
+        assertThat(user.username()).isNotEmpty();
     }
 }
