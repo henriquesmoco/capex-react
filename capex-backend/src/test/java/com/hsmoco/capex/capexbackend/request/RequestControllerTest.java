@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hsmoco.capex.capexbackend.CapexBackendApplication;
 import com.hsmoco.capex.capexbackend.request.dto.RequestCreateDto;
 import com.hsmoco.capex.capexbackend.request.dto.RequestDto;
+import com.hsmoco.capex.capexbackend.request.dto.RequestEditDto;
 import com.hsmoco.capex.capexbackend.request.model.BusinessUnit;
 import com.hsmoco.capex.capexbackend.request.model.Category;
 import com.hsmoco.capex.capexbackend.request.model.Request;
@@ -23,6 +24,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -100,5 +102,29 @@ public class RequestControllerTest {
                 .andExpect(jsonPath("$.category.id").value(equalTo(categoryId), Long.class))
                 .andExpect(jsonPath("$.businessUnit.id").value(equalTo(businessUnitId), Long.class))
                 .andExpect(jsonPath("$.parent.id").value(equalTo(parentId), Long.class));
+    }
+
+    @WithMockUser(username = "admin")
+    @Test
+    void updateRequest_WithRequestNotfound_Return404() throws Exception {
+        RequestEditDto requestDto = new RequestEditDto(0L, "ProjName", null,
+                null,null,null,null,null,1L,1L);
+
+        mockMvc.perform(put("/api/requests/0")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isNotFound());
+    }
+
+    @WithMockUser(username = "admin")
+    @Test
+    void updateRequest_WithInvalidRequest_ReturnBadRequest() throws Exception {
+        RequestEditDto requestDto = new RequestEditDto(null, null, null,
+                null,null,null,null,null,null,null);
+
+        mockMvc.perform(put("/api/requests/0")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isBadRequest());
     }
 }
