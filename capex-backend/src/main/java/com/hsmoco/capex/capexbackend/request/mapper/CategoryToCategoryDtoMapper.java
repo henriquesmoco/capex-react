@@ -6,5 +6,5 @@ import org.mapstruct.Mapper;
 import org.springframework.core.convert.converter.Converter;
 
 @Mapper(componentModel = "spring")
-public interface CategoryMapper extends Converter<Category, CategoryDto> {
+public interface CategoryToCategoryDtoMapper extends Converter<Category, CategoryDto> {
 }

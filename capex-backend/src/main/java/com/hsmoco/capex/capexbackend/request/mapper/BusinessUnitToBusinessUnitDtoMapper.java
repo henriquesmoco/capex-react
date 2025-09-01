@@ -6,5 +6,5 @@ import org.mapstruct.Mapper;
 import org.springframework.core.convert.converter.Converter;
 
 @Mapper(componentModel = "spring")
-public interface BusinessUnitMapper extends Converter<BusinessUnit, BusinessUnitDto> {
+public interface BusinessUnitToBusinessUnitDtoMapper extends Converter<BusinessUnit, BusinessUnitDto> {
 }
