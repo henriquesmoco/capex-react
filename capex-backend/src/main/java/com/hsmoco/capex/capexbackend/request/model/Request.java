@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode
+@EntityListeners(RequestNumberEntityListener.class)
 public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

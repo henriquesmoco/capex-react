@@ -150,3 +150,11 @@ databaseChangeLog:
               - column:
                   name: name
                   value: ORD Office
+  - changeSet:
+      id: 20250831.9
+      author: hsmoco
+      changes:
+        - createSequence:
+            sequenceName: seq_request_number
+            startValue: 1
+            incrementBy: 1

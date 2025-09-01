@@ -34,6 +34,18 @@ public class RequestRepositoryTest {
         assertThat(savedRequest.getChildren()).containsExactlyInAnyOrder(child1, child2);
     }
 
+    @Test
+    void saveRequest_WithoutParent_GeneratesRequestNumberOnSave() {
+        Request request = createRequest(RequestType.LAR, null, "project1");
+
+        requestRepository.save(request);
+
+        Request savedRequest = requestRepository.findById(request.getId()).orElseThrow(RuntimeException::new);
+        assertThat(savedRequest.getRequestNumber()).isNotNull();
+        assertThat(savedRequest.getRequestNumber()).startsWith("LAR");
+        assertThat(savedRequest.getRequestNumber()).doesNotEndWith("0000");
+    }
+
     private Request createRequest(RequestType type, String reqNum, String projName) {
         Request request = new Request();
         request.setType(type);
