@@ -2,6 +2,9 @@ package com.hsmoco.capex.capexbackend.request;
 
 import com.hsmoco.capex.capexbackend.request.dto.RequestCreateDto;
 import com.hsmoco.capex.capexbackend.request.dto.RequestDto;
+import com.hsmoco.capex.capexbackend.request.dto.RequestEditDto;
+import com.hsmoco.capex.capexbackend.request.model.BusinessUnit;
+import com.hsmoco.capex.capexbackend.request.model.Category;
 import com.hsmoco.capex.capexbackend.request.model.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
@@ -9,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -34,6 +38,26 @@ public class RequestController {
     @GetMapping("/{id}")
     public RequestDto getRequestById(@PathVariable Long id) {
         return conversionService.convert(requestRepository.findById(id).orElseThrow(), RequestDto.class);
+    }
+
+    @PutMapping("/{id}")
+    public RequestDto updateRequest(@PathVariable Long id, @RequestBody @Validated RequestEditDto requestDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new IllegalArgumentException("Invalid request");
+        }
+        Request request = requestRepository.findById(id).orElseThrow();
+        request.setProjectName(requestDto.projectName());
+        request.setProjectDate(requestDto.projectDate());
+        request.setDescription(requestDto.description());
+        request.setCapexCost(BigDecimal.valueOf(requestDto.capexCost()));
+        request.setOpexCost(BigDecimal.valueOf(requestDto.opexCost()));
+        request.setEmergency(requestDto.emergency());
+        request.setItProject(requestDto.itProject());
+        request.setCategory(new Category(requestDto.categoryId()));
+        request.setBusinessUnit(new BusinessUnit(requestDto.businessUnitId()));
+
+        requestRepository.save(request);
+        return conversionService.convert(request, RequestDto.class);
     }
 
     @PostMapping
