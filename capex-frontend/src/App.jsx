@@ -1,10 +1,17 @@
 import './App.css'
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
+
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <div>Capex React 2</div>,
+    },
+]);
 
 function App() {
   return (
-    <>
-      <h1>Capex React</h1>
-    </>
+      <RouterProvider router={router} />
   )
 }
 
