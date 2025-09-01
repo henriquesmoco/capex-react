@@ -64,4 +64,8 @@ public class Request {
     @ManyToOne
     @JoinColumn(name = "business_unit")
     private BusinessUnit businessUnit;
+
+    public Request(Long id) {
+        this.id = id;
+    }
 }

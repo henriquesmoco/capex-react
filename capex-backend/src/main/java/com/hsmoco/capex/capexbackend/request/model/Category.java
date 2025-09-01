@@ -24,6 +24,10 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private List<Request> children = new ArrayList<>();
 
+    public Category(Long id) {
+        this.id = id;
+    }
+
     public Category(String name) {
         this.name = name;
     }

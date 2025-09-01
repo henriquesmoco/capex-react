@@ -25,6 +25,10 @@ public class BusinessUnit {
     @OneToMany(mappedBy = "businessUnit")
     private List<Request> children = new ArrayList<>();
 
+    public BusinessUnit(Long id) {
+        this.id = id;
+    }
+
     public BusinessUnit(String name) {
         this.name = name;
     }
