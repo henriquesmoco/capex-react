@@ -22,7 +22,7 @@ const SideMenuItem = ({item, level}) => {
                 }
             }}
             className={`flex flex-row justify-between w-full p-3 pl-3 cursor-pointer transition-colors 
-            hover:bg-gray-300 rounded-md duration-200 ${levelPadding[Math.min(level, levelPadding.length - 1)]}`} >
+            hover:bg-gray-200 rounded-md duration-200 ${levelPadding[Math.min(level, levelPadding.length - 1)]}`} >
             <div className="flex items-center space-x-3">
                 {CustomIcon && <CustomIcon className="text-cyan-600" />}
                 <span className="font-medium">{item.label}</span>
