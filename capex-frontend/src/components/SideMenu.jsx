@@ -44,7 +44,7 @@ const SideMenuItem = ({item, level}) => {
     </>
 }
 
-const SideMenu = () => {
+const SideMenu = ({loggedUser, onSwitchUser}) => {
     const navigate = useNavigate();
 
     const items = [
@@ -71,8 +71,9 @@ const SideMenu = () => {
             ]
         },
         {
-            label: 'John Doe',
+            label: loggedUser?.name || 'Select User To Start',
             icon: PiUserSwitch,
+            command: () => onSwitchUser()
         }
     ]
 

@@ -1,8 +1,14 @@
 import logo from '/react.svg'
 import { Outlet } from "react-router";
 import SideMenu from "../components/SideMenu.jsx";
+import SwitchUserDialog from "../components/SwitchUserDialog.jsx";
+import {useContext, useState} from "react";
+import LoggedUserContext from "../context/user/LoggedUserContext.js";
 
 const RootLayout = () => {
+    const [switchDialogVisible, setSwitchDialogVisible] = useState(false);
+    const {loggedUser} = useContext(LoggedUserContext);
+
     return <>
         <div className="flex h-screen">
             <div className="flex flex-col pr-1 bg-gray-300">
@@ -13,13 +19,14 @@ const RootLayout = () => {
                                 CAPEX<span className="text-cyan-600">REQUESTS</span>
                         </span>
                     </span>
-                    <SideMenu/>
+                    <SideMenu loggedUser={loggedUser} onSwitchUser={() => setSwitchDialogVisible(true)}/>
                 </div>
             </div>
             <main className="flex-1 p-6 bg-white">
                 <Outlet />
             </main>
         </div>
+        <SwitchUserDialog visible={switchDialogVisible} onHide={() => setSwitchDialogVisible(false)} />
     </>
 }
 
