@@ -1,0 +1,24 @@
+
+.p-column-filter-row-item.p-highlight {
+    color: white !important;
+}
+
+.p-paginator-page.p-highlight {
+    color: white !important;
+}
+
+.p-sortable-column.p-highlight {
+    color: white !important;
+}
+
+.p-sortable-column.p-highlight .p-column-filter-menu-button {
+    color: white !important;
+}
+
+.p-datatable .p-sortable-column.p-highlight .p-sortable-column-icon {
+    color: white !important;
+}
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+    color: white !important;
+}
