@@ -6,13 +6,15 @@ import {PrimeReactProvider} from 'primereact/api';
 import RootLayout from "./layout/RootLayout.jsx";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import LoggedUserProvider from "./context/user/LoggedUserProvider.jsx";
+import ListRequestsPage from "./pages/ListRequestsPage.jsx";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <RootLayout/>,
         children: [
-            {path: "/", element: <h1>Home</h1>},
+            {path: "/", element: <ListRequestsPage />},
+            {path: "/unauthorized", element: <div><h1 className="text-4xl font-bold">Unauthorized</h1><p>Select an user and try again.</p></div>},
             {path: "/about", element: <h1>About</h1>},
         ]
     },
