@@ -26,7 +26,7 @@ const RootLayout = () => {
                 <Outlet />
             </main>
         </div>
-        <SwitchUserDialog visible={switchDialogVisible} onHide={() => setSwitchDialogVisible(false)} />
+        {switchDialogVisible && <SwitchUserDialog visible={switchDialogVisible} onHide={() => setSwitchDialogVisible(false)} />}
     </>
 }
 
