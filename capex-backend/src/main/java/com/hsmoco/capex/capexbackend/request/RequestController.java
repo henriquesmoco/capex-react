@@ -8,12 +8,14 @@ import com.hsmoco.capex.capexbackend.request.model.Category;
 import com.hsmoco.capex.capexbackend.request.model.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/requests")
@@ -29,10 +31,9 @@ public class RequestController {
     }
 
     @GetMapping
-    public List<RequestDto> getRequests() {
-        return requestRepository.findAll().stream()
-                .map(request -> conversionService.convert(request, RequestDto.class))
-                .toList();
+    public Page<RequestDto> getRequests(@PageableDefault Pageable pageable) {
+        return requestRepository.findAll(pageable)
+                .map(request -> conversionService.convert(request, RequestDto.class));
     }
 
     @GetMapping("/{id}")

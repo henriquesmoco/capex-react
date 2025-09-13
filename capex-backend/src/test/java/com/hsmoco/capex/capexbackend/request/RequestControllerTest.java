@@ -14,12 +14,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -70,7 +71,7 @@ public class RequestControllerTest {
         request.setProjectName("child_project");
         requestRepository.save(request);
 
-        List<RequestDto> requests = requestController.getRequests();
+        Page<RequestDto> requests = requestController.getRequests(PageRequest.of(0, 10));
         RequestDto requestDto = requests.stream().filter(r -> r.id().equals(request.getId())).findFirst().orElseThrow();
         assertThat(requestDto.requestNumber()).isEqualTo(request.getRequestNumber());
         assertThat(requestDto.projectName()).isEqualTo(request.getProjectName());
