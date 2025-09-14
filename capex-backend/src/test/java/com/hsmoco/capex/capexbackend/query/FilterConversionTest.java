@@ -22,16 +22,16 @@ public class FilterConversionTest {
     static Stream<Arguments> testSource_ConvertStringToParam() {
         return Stream.of(
                 arguments("", null),
-                arguments("[equals]john", null),
-                arguments("name[]john", null),
-                arguments("[]john", null),
-                arguments("[]", null),
-                arguments("name]equals[john", null),
-                arguments("name[equals]john", new FilterParam("name",FilterOperation.EQUALS,"john")),
-                arguments("name[equals]john%20doe", new FilterParam("name",FilterOperation.EQUALS,"john doe")),
-                arguments("name[equals]", new FilterParam("name",FilterOperation.EQUALS,"")),
-                arguments("age[lt]10", new FilterParam("age",FilterOperation.LESS_THAN,"10")),
-                arguments("name[what]john", new FilterParam("name",FilterOperation.UNKNOWN,"john"))
+                arguments("(equals)john", null),
+                arguments("name()john", null),
+                arguments("()john", null),
+                arguments("()", null),
+                arguments("name)equals(john", null),
+                arguments("name(equals)john", new FilterParam("name",FilterOperation.EQUALS,"john")),
+                arguments("name(equals)john%20doe", new FilterParam("name",FilterOperation.EQUALS,"john doe")),
+                arguments("name(equals)", new FilterParam("name",FilterOperation.EQUALS,"")),
+                arguments("age(lt)10", new FilterParam("age",FilterOperation.LESS_THAN,"10")),
+                arguments("name(what)john", new FilterParam("name",FilterOperation.UNKNOWN,"john"))
         );
     }
 }

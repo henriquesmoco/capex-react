@@ -13,7 +13,7 @@ public class FilterConversion {
 
     /**
      * Convert the filter string list to FilterParam list.<br>
-     * @param filters list of filter strings: <code>fieldName[operation]value</code>
+     * @param filters list of filter strings: <code>fieldName(operation)value</code>
      * @return a list of <code>FilterParam</code> without nulls and unknown operations
      */
     public List<FilterParam> convert(List<String> filters) {
@@ -26,14 +26,14 @@ public class FilterConversion {
 
     /**
      * Convert filter string to FilterParam list.
-     * @param filter fieldName[operation]value
+     * @param filter fieldName(operation)value
      * @return FilterParam with decoded value or null if the filter is invalid
      */
     public FilterParam convert(String filter) {
         if(StringUtils.isBlank(filter)) return null;
 
-        int opStart = filter.indexOf('[');
-        int opEnd = filter.indexOf(']', opStart);
+        int opStart = filter.indexOf('(');
+        int opEnd = filter.indexOf(')', opStart);
         if(opStart < 0 || opEnd < 0 || opStart == opEnd) {
             return null;
         }
