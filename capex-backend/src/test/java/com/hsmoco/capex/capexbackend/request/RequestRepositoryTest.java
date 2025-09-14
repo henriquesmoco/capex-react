@@ -87,6 +87,27 @@ public class RequestRepositoryTest {
     }
 
     @Test
+    void getRequest_WithTwoSpecificationNumberForSameField_ReturnsCorrectRequests() {
+        Request request = createRequest(RequestType.CAR, "CAR1", "ABC");
+        request.setCapexCost(BigDecimal.valueOf(10L));
+        Request request2 = createRequest(RequestType.CAR, "CAR2", "DEF");
+        request2.setCapexCost(BigDecimal.valueOf(20L));
+        Request request3 = createRequest(RequestType.CAR, "CAR3", "GHI");
+        request3.setCapexCost(BigDecimal.valueOf(30L));
+
+        requestRepository.save(request);
+        requestRepository.save(request2);
+
+        Specification<Request> spec = RequestSpecificationBuilder.build(List.of(
+                new FilterParam("capexCost", FilterOperation.GREATER_THAN, "15"),
+                new FilterParam("capexCost", FilterOperation.LESS_THAN, "25")));
+
+        List<Request> result = requestRepository.findAll(spec);
+        assertThat(result.size()).isEqualTo(1);
+        assertThat(result).containsExactly(request2);
+    }
+
+    @Test
     void getRequest_WithSpecificationDate_ReturnsCorrectRequests() {
         Request request = createRequest(RequestType.CAR, "CAR1", "ABC");
         request.setProjectDate(LocalDate.of(2020, 5, 1));

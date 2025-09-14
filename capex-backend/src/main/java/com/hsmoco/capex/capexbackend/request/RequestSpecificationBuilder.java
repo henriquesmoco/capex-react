@@ -14,7 +14,7 @@ public class RequestSpecificationBuilder {
             if (spec == null) {
                 spec = Specification.allOf(build(filterParam));
             } else {
-                spec.and(build(filterParam));
+                spec = spec.and(build(filterParam));
             }
         }
         return spec;
