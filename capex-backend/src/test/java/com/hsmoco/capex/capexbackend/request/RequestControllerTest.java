@@ -71,7 +71,7 @@ public class RequestControllerTest {
         request.setProjectName("child_project");
         requestRepository.save(request);
 
-        Page<RequestDto> requests = requestController.getRequests(PageRequest.of(0, 10));
+        Page<RequestDto> requests = requestController.getRequests(PageRequest.of(0, 10), null);
         RequestDto requestDto = requests.stream().filter(r -> r.id().equals(request.getId())).findFirst().orElseThrow();
         assertThat(requestDto.requestNumber()).isEqualTo(request.getRequestNumber());
         assertThat(requestDto.projectName()).isEqualTo(request.getProjectName());
