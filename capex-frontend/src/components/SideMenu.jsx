@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {Badge} from "primereact/badge";
+import { Badge } from "antd";
 import { PiUserSwitch } from "react-icons/pi";
 import { AiOutlineHome } from "react-icons/ai";
 import { FaChevronRight } from 'react-icons/fa';
@@ -28,7 +28,7 @@ const SideMenuItem = ({item, level}) => {
                 <span className="font-medium">{item.label}</span>
             </div>
             <div className="flex items-center space-x-2">
-                {item.badge && <Badge className="ml-auto" value={item.badge} />}
+                {item.badge && <Badge className="ml-auto" count={item.badge} />}
                 {hasChildren && (
                     <FaChevronRight
                         className={`mr-1 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`}

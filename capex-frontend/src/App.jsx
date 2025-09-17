@@ -1,8 +1,9 @@
 import './App.css'
-import 'primereact/resources/themes/lara-light-teal/theme.css'
+import '@ant-design/v5-patch-for-react-19';
+import { StyleProvider } from '@ant-design/cssinjs';
+import { ConfigProvider } from 'antd';
 import {createBrowserRouter} from "react-router";
 import {RouterProvider} from "react-router/dom";
-import {PrimeReactProvider} from 'primereact/api';
 import RootLayout from "./layout/RootLayout.jsx";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import LoggedUserProvider from "./context/user/LoggedUserProvider.jsx";
@@ -25,11 +26,13 @@ const queryClient = new QueryClient()
 function App() {
     return (
         <QueryClientProvider client={queryClient}>
-            <PrimeReactProvider>
-                <LoggedUserProvider>
-                    <RouterProvider router={router}/>
-                </LoggedUserProvider>
-            </PrimeReactProvider>
+            <StyleProvider layer>
+                <ConfigProvider>
+                    <LoggedUserProvider>
+                        <RouterProvider router={router}/>
+                    </LoggedUserProvider>
+                </ConfigProvider>
+            </StyleProvider>
         </QueryClientProvider>
     )
 }

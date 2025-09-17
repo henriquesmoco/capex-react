@@ -1,112 +1,125 @@
 import useRequests from "../hooks/useRequests.js";
-import {Toast} from "primereact/toast";
-import {useRef, useState} from "react";
-import {DataTable} from "primereact/datatable";
-import {Column} from "primereact/column";
-import Button from "../components/Button.jsx";
-import {Calendar} from "primereact/calendar";
+import {useState} from "react";
+import { Table , message } from 'antd';
+import TableFilterPopup from "../components/TableFilterPopup.jsx";
+import dayjs from 'dayjs';
 
-const parseFilters = (filters) => {
-    if (!filters) return "";
-    let result = "";
-    for (const [key, { constraints }] of Object.entries(filters)) {
-        if (key === "null") continue;
-
-        for (const { value, matchMode } of constraints) {
-            if (value !== null) {
-                let formattedValue;
-
-                if (value instanceof Date) {
-                    const y = value.getFullYear();
-                    const m = String(value.getMonth() + 1).padStart(2, '0');
-                    const d = String(value.getDate()).padStart(2, '0');
-                    formattedValue = `${y}-${m}-${d}`
-                } else {
-                    formattedValue = value;
-                }
-                result += `&filter=${key}(${matchMode})${encodeURI(formattedValue)}`;
-            }
+const parseFilters = (_filters) => {
+    return Object.entries(_filters).
+    filter(([_, value]) => value !== null && value !== undefined).
+    flatMap(([field, item]) => {
+        let formattedValue = item[0].value
+        if (dayjs.isDayjs(item[0].value)) {
+            formattedValue = item[0].value?.format('YYYY-MM-DD')
         }
-    }
-    return result;
+        return `&filter=${field}(${item[0].operator})${encodeURI(formattedValue)}`
+    }).join('')
 }
 
 const ListRequestsPage = () => {
-    const [lazyState, setLazyState] = useState({
-        first: 0,
-        rows: 2,
+    const [tableState, setTableState] = useState({
         page: 0,
+        pageSize: 2,
         sortField: null,
         sortOrder: null,
     });
-    const queryFilters = parseFilters(lazyState.filters)
-    const { isLoading, data, error } = useRequests(lazyState.page, lazyState.rows, lazyState.sortField, lazyState.sortOrder, queryFilters)
-    const toast = useRef(null);
-
-    const totalRecords = data ? data.page.totalElements : 0;
-
-    const onFilter = (event) => {
-        setLazyState(event);
-    };
-
-    const onPage = (event) => {
-        setLazyState(event);
-    };
-
-    const onSort = (event) => {
-        setLazyState(event);
-    };
+    const [filterState, setFilterState] = useState({})
+    const queryFilters = parseFilters(filterState)
+    const { isLoading, data, error } = useRequests(tableState.page, tableState.pageSize, tableState.sortField, tableState.sortOrder, queryFilters)
+    const [messageApi, contextHolder] = message.useMessage();
 
     if (error) {
-        toast.current.show({severity: 'error', summary: 'Error', detail: error.message, life: 3000});
+        messageApi.open({
+            type: 'error',
+            content: error.message,
+        });
     }
 
-    const actionBodyTemplate = (rowData) => {
-        //console.log(rowData)
-        return <Button label={rowData.id}></Button>;
-    };
-
-    const filterElementDate = (props) => {
-        const { filterModel, filterCallback } = props;
-        return <Calendar showIcon
-                         value={filterModel.value}
-                         onChange={(e) => filterCallback(e.value, props.index)} />
-    }
+    const columns = [
+        {
+            title: 'Number',
+            dataIndex: 'requestNumber',
+            key: 'requestNumber',
+            sorter: true,
+            render: (text) => <a>{text}</a>,
+            filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => (
+                <TableFilterPopup dataType={"text"} setSelectedKeys={setSelectedKeys} selectedKeys={selectedKeys} onConfimr={confirm} />
+            ),
+            onFilter: (value, record) => true
+        },
+        {
+            title: 'Type',
+            dataIndex: 'type',
+            key: 'type',
+            sorter: true,
+            filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => (
+                <TableFilterPopup dataType={"text"} setSelectedKeys={setSelectedKeys} selectedKeys={selectedKeys} onConfimr={confirm} />
+            ),
+            onFilter: (value, record) => true
+        },
+        {
+            title: 'Project Name',
+            dataIndex: 'projectName',
+            key: 'projectName',
+            sorter: true,
+            filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => (
+                <TableFilterPopup dataType={"text"} setSelectedKeys={setSelectedKeys} selectedKeys={selectedKeys} onConfimr={confirm} />
+            ),
+            onFilter: (value, record) => true
+        },
+        {
+            title: 'Project Date',
+            dataIndex: 'projectDate',
+            key: 'projectDate',
+            sorter: true,
+            filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => (
+                <TableFilterPopup dataType={"date"} setSelectedKeys={setSelectedKeys} selectedKeys={selectedKeys} onConfimr={confirm} />
+            ),
+            onFilter: (value, record) => true
+        },
+        {
+            title: 'Capex',
+            dataIndex: 'capexCost',
+            key: 'capexCost',
+            sorter: true,
+            filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => (
+                <TableFilterPopup dataType={"number"} setSelectedKeys={setSelectedKeys} selectedKeys={selectedKeys} onConfimr={confirm} />
+            ),
+            onFilter: (value, record) => true
+        },
+        {
+            title: 'Opex',
+            dataIndex: 'opexCost',
+            key: 'opexCost',
+            sorter: true,
+            filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => (
+                <TableFilterPopup dataType={"number"} setSelectedKeys={setSelectedKeys} selectedKeys={selectedKeys} onConfimr={confirm} />
+            ),
+            onFilter: (value, record) => true
+        },
+        ]
 
     return <>
-        <Toast ref={toast}/>
+        {contextHolder}
         <h1 className="text-2xl font-bold">List Requests</h1>
-
-        <DataTable value={data ? data.content : []} lazy dataKey="id" paginator onFilter={onFilter}
-                   first={lazyState.first} rows={lazyState.rows} totalRecords={totalRecords} onPage={onPage}
-                   onSort={onSort} sortField={lazyState.sortField} sortOrder={lazyState.sortOrder}
-                   loading={isLoading} tableStyle={{ minWidth: '75rem' }}
-                   rowClassName={(rowData) => ({ '!bg-red-50': rowData?.emergency })}
-                   >
-            <Column field="requestNumber" header="Number" sortable
-                    filter filterPlaceholder="Search" showFilterOperator={false} showAddButton={false}/>
-            <Column field="type" header="Type" sortable
-                    filter filterPlaceholder="Search" showFilterOperator={false} showAddButton={false}/>
-            <Column field="projectName" header="Project Name" sortable
-                    filter filterPlaceholder="Search" showFilterOperator={false} showAddButton={false}/>
-            <Column field="projectDate" header="Project Date" sortable
-                    filter filterPlaceholder="Search" showFilterOperator={false}
-                    filterElement={filterElementDate}
-                    dataType="date"
-            />
-            <Column field="capexCost" header="Capex" sortable
-                    filter filterPlaceholder="Search" showFilterOperator={false}
-                    dataType="numeric"
-            />
-            <Column field="opexCost" header="Opex" sortable
-                    filter filterPlaceholder="Search" showFilterOperator={false}
-                    dataType="numeric"
-            />
-            <Column field="parent.requestNumber" header="Parent" sortable
-                    filter filterPlaceholder="Search" showFilterOperator={false} showAddButton={false}
-            />
-            <Column body={actionBodyTemplate} />
-        </DataTable>
+        <Table columns={columns}
+               dataSource={data?.content || []} rowKey="id"
+               loading={isLoading}
+               pagination={{
+                   current: tableState.page + 1,
+                   pageSize: tableState.pageSize,
+                   total: data?.page?.totalElements || 0
+               }}
+               onChange={(pagination, _filters, sorter) => {
+                   setTableState({
+                       page: pagination.current - 1,
+                       pageSize: pagination.pageSize,
+                       sortField: sorter.field,
+                       sortOrder: sorter.order,
+                   })
+                   setFilterState(_filters)
+               }}
+        />
     </>
 }
 

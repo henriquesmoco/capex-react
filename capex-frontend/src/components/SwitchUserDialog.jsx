@@ -1,21 +1,19 @@
-import {Dialog} from "primereact/dialog";
-import Button from "./Button.jsx";
+import {Modal, message, Skeleton} from 'antd';
 import {PiUserSwitch} from "react-icons/pi";
-import {useContext, useRef, useState} from "react";
+import {useContext, useState} from "react";
 import LoggedUserContext from "../context/user/LoggedUserContext.js";
 import useAllUsers from "../hooks/useAllUsers.js";
-import {Skeleton} from "primereact/skeleton";
-import {Dropdown} from "primereact/dropdown";
-import {Toast} from "primereact/toast";
+import { Select } from "antd";
 
 const SwitchUserDialog = ({visible, onHide}) => {
     const {loggedUser, setLoggedUser} = useContext(LoggedUserContext);
     const [selectedUser, setSelectedUser] = useState(loggedUser)
     const {isLoading, data, error} = useAllUsers()
-    const toast = useRef(null);
+    const [messageApi, contextHolder] = message.useMessage();
 
-    const handleSwitchSelected = (e) => {
-        setSelectedUser(e.value)
+    const handleSwitchSelected = (value) => {
+        const selectionIdx = data.findIndex(user => user.username === value)
+        setSelectedUser(data[selectionIdx])
     }
 
     const handleSwitchUserConfirmed = () => {
@@ -24,26 +22,35 @@ const SwitchUserDialog = ({visible, onHide}) => {
     }
 
     if (error) {
-        toast.current.show({severity: 'error', summary: 'Error', detail: error.message, life: 3000});
+        messageApi.open({
+            type: 'error',
+            content: error.message,
+        });
     }
-
-    const footerContent = <>
-        <Button label="Cancel" onClick={() => onHide()} severity="secondary"/>
-        <Button icon={PiUserSwitch} label="Switch" onClick={() => handleSwitchUserConfirmed()}/>
-    </>
 
     return (
         <>
-            <Toast ref={toast}/>
-            <Dialog header="Switch User" visible={visible} style={{width: '20vw'}} onHide={onHide} footer={footerContent}>
-                {isLoading && <Skeleton height="2rem" className="mb-2 w-full"></Skeleton>}
-                {!isLoading && <Dropdown value={selectedUser}
-                                         onChange={(e) => handleSwitchSelected(e)}
-                                         options={data}
-                                         optionLabel="name"
-                                         placeholder="Select User"
-                                        className="w-full"/>}
-            </Dialog>
+            {contextHolder}
+            <Modal
+                title="Switch User"
+                open={visible}
+                onOk={handleSwitchUserConfirmed}
+                okText={"Switch"}
+                okButtonProps={{ disabled: !selectedUser, icon: <PiUserSwitch /> }}
+                cancelText="Cancel"
+                onCancel={onHide}
+                loading={isLoading}
+            >
+                {isLoading && <Skeleton.Input active={true} block={true} />}
+                {!isLoading && <Select
+                        className={"w-full"}
+                        onChange={handleSwitchSelected}
+                        placeholder="select user"
+                        defaultValue={selectedUser?.username}
+                        options={data.map(user => ({ value: user.username, label: user.name }))}
+                    />
+                }
+            </Modal>
         </>)
 }
 

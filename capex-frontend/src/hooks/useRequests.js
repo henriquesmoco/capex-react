@@ -4,7 +4,7 @@ import {useQuery} from "@tanstack/react-query";
 const useRequests = (page, size, sortField, sortDirection, queryFilter) => {
     const axios = useAxios();
     const fetchAllRequests = async () => {
-        const sort = sortField ? `&sort=${sortField},${sortDirection === 1 ? 'asc' : 'desc'}` : '';
+        const sort = sortField ? `&sort=${sortField},${sortDirection === 'ascend' ? 'asc' : 'desc'}` : '';
         const { data } = await axios.get(`/api/requests?page=${page}&size=${size}${sort}${queryFilter}`) //?page=0&size=10&sort=name,asc
         return data;
     }
