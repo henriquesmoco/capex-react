@@ -1,6 +1,6 @@
-package com.hsmoco.capex.capexbackend.request.mapper;
+package com.hsmoco.capex.capexbackend.businessunit.mapper;
 
-import com.hsmoco.capex.capexbackend.request.model.BusinessUnit;
+import com.hsmoco.capex.capexbackend.businessunit.BusinessUnit;
 import org.mapstruct.Mapper;
 import org.springframework.core.convert.converter.Converter;
 

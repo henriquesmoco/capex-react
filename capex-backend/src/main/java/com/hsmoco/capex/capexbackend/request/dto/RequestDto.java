@@ -1,5 +1,7 @@
 package com.hsmoco.capex.capexbackend.request.dto;
 
+import com.hsmoco.capex.capexbackend.businessunit.dto.BusinessUnitDto;
+import com.hsmoco.capex.capexbackend.category.dto.CategoryDto;
 import com.hsmoco.capex.capexbackend.request.model.RequestType;
 
 import java.time.LocalDate;

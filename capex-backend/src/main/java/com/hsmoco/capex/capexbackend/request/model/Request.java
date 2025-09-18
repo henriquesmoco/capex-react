@@ -1,5 +1,7 @@
 package com.hsmoco.capex.capexbackend.request.model;
 
+import com.hsmoco.capex.capexbackend.businessunit.BusinessUnit;
+import com.hsmoco.capex.capexbackend.category.Category;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

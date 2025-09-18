@@ -1,7 +1,7 @@
-package com.hsmoco.capex.capexbackend.request.mapper;
+package com.hsmoco.capex.capexbackend.category.mapper;
 
-import com.hsmoco.capex.capexbackend.request.dto.CategoryDto;
-import com.hsmoco.capex.capexbackend.request.model.Category;
+import com.hsmoco.capex.capexbackend.category.dto.CategoryDto;
+import com.hsmoco.capex.capexbackend.category.Category;
 import org.mapstruct.Mapper;
 import org.springframework.core.convert.converter.Converter;
 

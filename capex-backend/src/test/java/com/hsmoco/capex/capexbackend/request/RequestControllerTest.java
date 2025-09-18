@@ -2,11 +2,13 @@ package com.hsmoco.capex.capexbackend.request;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hsmoco.capex.capexbackend.CapexBackendApplication;
+import com.hsmoco.capex.capexbackend.businessunit.BusinessUnitRepository;
+import com.hsmoco.capex.capexbackend.category.CategoryRepository;
 import com.hsmoco.capex.capexbackend.request.dto.RequestCreateDto;
 import com.hsmoco.capex.capexbackend.request.dto.RequestDto;
 import com.hsmoco.capex.capexbackend.request.dto.RequestEditDto;
-import com.hsmoco.capex.capexbackend.request.model.BusinessUnit;
-import com.hsmoco.capex.capexbackend.request.model.Category;
+import com.hsmoco.capex.capexbackend.businessunit.BusinessUnit;
+import com.hsmoco.capex.capexbackend.category.Category;
 import com.hsmoco.capex.capexbackend.request.model.Request;
 import com.hsmoco.capex.capexbackend.request.model.RequestType;
 import jakarta.transaction.Transactional;

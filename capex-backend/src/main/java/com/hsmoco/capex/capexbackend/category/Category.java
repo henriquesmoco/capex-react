@@ -1,5 +1,6 @@
-package com.hsmoco.capex.capexbackend.request.model;
+package com.hsmoco.capex.capexbackend.category;
 
+import com.hsmoco.capex.capexbackend.request.model.Request;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,12 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "tb_business_units")
+@Table(name = "tb_categories")
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode
-public class BusinessUnit {
-
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,14 +22,14 @@ public class BusinessUnit {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "businessUnit")
+    @OneToMany(mappedBy = "category")
     private List<Request> children = new ArrayList<>();
 
-    public BusinessUnit(Long id) {
+    public Category(Long id) {
         this.id = id;
     }
 
-    public BusinessUnit(String name) {
+    public Category(String name) {
         this.name = name;
     }
 }

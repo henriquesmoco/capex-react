@@ -1,5 +1,7 @@
 package com.hsmoco.capex.capexbackend.request.mapper;
 
+import com.hsmoco.capex.capexbackend.businessunit.mapper.LongToBusinessUnitMapper;
+import com.hsmoco.capex.capexbackend.category.mapper.LongToCategoryMapper;
 import com.hsmoco.capex.capexbackend.request.dto.RequestCreateDto;
 import com.hsmoco.capex.capexbackend.request.model.Request;
 import org.mapstruct.Mapper;

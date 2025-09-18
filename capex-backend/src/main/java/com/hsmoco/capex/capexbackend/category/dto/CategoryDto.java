@@ -1,4 +1,4 @@
-package com.hsmoco.capex.capexbackend.request.dto;
+package com.hsmoco.capex.capexbackend.category.dto;
 
 public record CategoryDto(Long id, String name) {
 }

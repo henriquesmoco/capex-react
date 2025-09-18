@@ -1,6 +1,5 @@
-package com.hsmoco.capex.capexbackend.request;
+package com.hsmoco.capex.capexbackend.businessunit;
 
-import com.hsmoco.capex.capexbackend.request.model.BusinessUnit;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BusinessUnitRepository extends JpaRepository<BusinessUnit, Long> {
