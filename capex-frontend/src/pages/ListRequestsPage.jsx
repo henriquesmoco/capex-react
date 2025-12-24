@@ -3,6 +3,7 @@ import {useState} from "react";
 import { Table , message } from 'antd';
 import TableFilterPopup from "../components/TableFilterPopup.jsx";
 import dayjs from 'dayjs';
+import {Link} from "react-router";
 
 const parseFilters = (_filters) => {
     return Object.entries(_filters).
@@ -41,7 +42,7 @@ const ListRequestsPage = () => {
             dataIndex: 'requestNumber',
             key: 'requestNumber',
             sorter: true,
-            render: (text) => <a>{text}</a>,
+            render: (text, record) => <Link to={`/requests/${record.id}`}>{text}</Link>,
             filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => (
                 <TableFilterPopup dataType={"text"} setSelectedKeys={setSelectedKeys} selectedKeys={selectedKeys} onConfimr={confirm} />
             ),
