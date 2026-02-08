@@ -56,4 +56,17 @@ public class RequestNumberEntityListenerTest {
         assertThat(request.getRequestNumber()).isEqualTo("CAR0001-S2");
         verify(requestRepository, never()).getNextRequestNumber();
     }
+
+    @Test
+    void generateNumber_WithNextNumberBig_DontTruncateNumber() {
+        when(requestRepository.getNextRequestNumber()).thenReturn(12345678L);
+        RequestNumberEntityListener listener = new RequestNumberEntityListener(requestRepository);
+        Request request = new Request();
+        request.setType(RequestType.CAR);
+
+        listener.generateRequestNumber(request);
+
+        assertThat(request.getRequestNumber()).isNotNull();
+        assertThat(request.getRequestNumber()).isEqualTo("CAR12345678");
+    }
 }
