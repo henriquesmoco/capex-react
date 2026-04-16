@@ -73,3 +73,41 @@ databaseChangeLog:
               - column:
                   name: name
                   value: Paul Smith
+  - changeSet:
+      id: 20250831.4
+      author: hsmoco
+      changes:
+        - addColumn:
+            tableName: tb_users
+            columns:
+              - column:
+                  name: password
+                  type: varchar(255)
+        - update:
+            tableName: tb_users
+            where: username = 'admin'
+            columns:
+              - column:
+                  name: password
+                  value: $2a$10$ya1OtuXU0T0EJuYy4NMY8.PMY0xhsbxdoyynbcIN.49RVc/P6/5bi
+        - update:
+            tableName: tb_users
+            where: username = 'johndoe'
+            columns:
+              - column:
+                  name: password
+                  value: $2a$10$pojetlri2Fm/mOTImsUgZOHh657z1BD5fkA7C9buJoKBFYTJHoaQG
+        - update:
+            tableName: tb_users
+            where: username = 'marydoe'
+            columns:
+              - column:
+                  name: password
+                  value: $2a$10$SWLZXXHVnAHiXO74pUoCfeBo10i6UZNGadTYtpIw.8j8k1ixrecxy
+        - update:
+            tableName: tb_users
+            where: username = 'paulsmith'
+            columns:
+              - column:
+                  name: password
+                  value: $2a$10$OAzYr7GWpqMhopgi5CpnLuvVdC/MJcA3dv0DVfmplJTvcIMIxbuFe

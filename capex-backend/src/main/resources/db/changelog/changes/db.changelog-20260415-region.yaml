@@ -1,0 +1,161 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260415.1
+      author: hsmoco
+      changes:
+        - createTable:
+            tableName: tb_regions
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: code
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 20260415.2
+      author: hsmoco
+      changes:
+        - createIndex:
+            tableName: tb_regions
+            indexName: idx_region_code
+            columns:
+              - column:
+                  name: code
+  - changeSet:
+      id: 20260415.3
+      author: hsmoco
+      changes:
+        - insert:
+            tableName: tb_regions
+            columns:
+              - column:
+                  name: id
+                  value: "1"
+              - column:
+                  name: code
+                  value: NA
+        - insert:
+            tableName: tb_regions
+            columns:
+              - column:
+                    name: id
+                    value: "2"
+              - column:
+                  name: code
+                  value: CA
+  - changeSet:
+      id: 20260415.4
+      author: hsmoco
+      changes:
+        - createTable:
+            tableName: tb_region_permissions
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: region_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: can_view
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: can_edit
+                  type: boolean
+                  constraints:
+                    nullable: false
+        - insert:
+            tableName: tb_region_permissions
+            columns:
+              - column:
+                  name: user_id
+                  valueComputed: "SELECT id FROM tb_users WHERE username = 'admin'"
+              - column:
+                  name: region_id
+                  value: "1"
+              - column:
+                  name: can_edit
+                  value: "true"
+              - column:
+                  name: can_view
+                  value: "true"
+        - insert:
+            tableName: tb_region_permissions
+            columns:
+              - column:
+                  name: user_id
+                  valueComputed: "SELECT id FROM tb_users WHERE username = 'admin'"
+              - column:
+                  name: region_id
+                  value: "2"
+              - column:
+                  name: can_edit
+                  value: "true"
+              - column:
+                  name: can_view
+                  value: "true"
+        - insert:
+            tableName: tb_region_permissions
+            columns:
+              - column:
+                  name: user_id
+                  valueComputed: "SELECT id FROM tb_users WHERE username = 'johndoe'"
+              - column:
+                  name: region_id
+                  value: "1"
+              - column:
+                  name: can_edit
+                  value: "true"
+              - column:
+                  name: can_view
+                  value: "true"
+        - insert:
+            tableName: tb_region_permissions
+            columns:
+              - column:
+                  name: user_id
+                  valueComputed: "SELECT id FROM tb_users WHERE username = 'marydoe'"
+              - column:
+                  name: region_id
+                  value: "2"
+              - column:
+                  name: can_edit
+                  value: "true"
+              - column:
+                  name: can_view
+                  value: "true"
+        - insert:
+            tableName: tb_region_permissions
+            columns:
+              - column:
+                  name: user_id
+                  valueComputed: "SELECT id FROM tb_users WHERE username = 'paulsmith'"
+              - column:
+                  name: region_id
+                  value: "1"
+              - column:
+                  name: can_edit
+                  value: "false"
+              - column:
+                  name: can_view
+                  value: "true"

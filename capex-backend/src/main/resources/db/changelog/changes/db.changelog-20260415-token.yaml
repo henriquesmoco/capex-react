@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260415.5
+      author: hsmoco
+      changes:
+        - createTable:
+            tableName: tb_refresh_tokens
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: token
+                  type: varchar(2048)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: expires_at
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: revoked
+                  type: boolean
+                  constraints:
+                    nullable: false
